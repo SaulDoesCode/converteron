@@ -1,0 +1,235 @@
+@import "https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css";
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: OpenSans, Noto, Arial, Helvetica, sans-serif;
+  color: #2f2e2b;
+  text-align: center;
+  background: hsl(234, 15%, 14%);
+}
+
+.v-align-row {
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+}
+
+.v-align-column {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  flex-flow: column wrap;
+}
+
+.txt-shadow-subtle {
+  text-shadow: 0 1px 3px rgba(0,0,0,.1);
+}
+
+a, a:visited, a:active, a:hover {
+  color: inherit;
+  text-decoration: none;
+  text-decoration: underline;
+  transition: all 160ms ease-out;
+}
+
+a:hover, a:active {
+  font-weight: bold;
+}
+
+footer {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: .5em;
+  color: #5a5a69;
+}
+
+
+.hero {
+  justify-content: center;
+  overflow: hidden;
+  margin: 0 0 1em 0;
+  padding: 1em;
+  width: 100%;
+  height: auto;
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+}
+
+.hero > h1 {
+  display: inline-block;
+  margin: .1em .5em;
+}
+
+.converter {
+  margin: 1em auto;
+  min-height: 300px;
+}
+
+.conversion-types {
+  margin: 1em auto;
+  padding: 1em;
+  width: calc(100% - 1em);
+  max-width: 380px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 4px;
+  transition: all 120ms ease-out;
+}
+
+.conversion-types:hover {
+  border-radius: 4px;
+}
+
+.conversion-types > .active-type {
+  display: block;
+  width: 100%;
+  margin: 5px auto;
+  text-align: center;
+}
+
+.conversion-types .type-selector {
+  justify-content: center;
+  width: auto;
+  height: 0;
+  opacity: 0;
+  margin: 5px auto;
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  transform: scale(0);
+  -webkit-pointer-events: none;
+  -moz-pointer-events: none;
+  pointer-events: none;
+  transition: all 140ms ease-out, opacity 200ms ease-out;
+}
+
+.conversion-types:hover .type-selector {
+  height: 360px;
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  transform: scale(1);
+  -webkit-pointer-events: all;
+  -moz-pointer-events: all;
+  pointer-events: all;
+}
+
+.conversion-types .type-selector > span {
+  padding: 6px 8px;
+  margin: 4px;
+  font-size: 1.06em;
+  border-radius: 2px;
+  border: 1px solid rgba(0,0,0,.07);
+  cursor: pointer;
+  background: #fff;
+  transition: all 120ms ease-out;
+}
+
+.conversion-types .type-selector > span.active {
+  border: 1px solid hsl(46, 72%, 66%);
+}
+
+.conversion-inputs {
+  width: 100%;
+  margin: 1em auto;
+}
+
+.conversion-inputs > * {
+  display: inline-block;
+  border: 0;
+  vertical-align: middle;
+}
+
+.conversion-inputs input {
+  display: inline-block;
+  text-align: center;
+  padding: 8px 4px;
+  margin: 0 5px;
+  border: 0;
+  outline: 0;
+  width: 240px;
+  font-size: 1.1em;
+  border-radius: 2px 2px 0 0;
+}
+
+.conversion-inputs .equals {
+  display: inline-block;
+  font-size: 2em;
+  margin: 1em;
+  color: #fff;
+}
+
+.unitA, .unitB {
+  padding: 1em 1em 3em 1em;
+}
+
+.unit-picker {
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  margin: 0 5px 0 5px;
+  padding: 0;
+  height: auto;
+  width: 240px;
+  background: #fff;
+  border-radius: 0 0 2px 2px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.unit-picker {
+  z-index: 2;
+}
+
+.unit-picker > span {
+  position: relative;
+  display: block;
+  opacity: 0;
+  height: 0;
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  cursor: pointer;
+  -webkit-pointer-events: none;
+  -moz-pointer-events: none;
+  pointer-events: none;
+  transition: all 120ms ease-out;
+}
+
+.unit-picker > span.active, .unit-picker:hover > span {
+  height: 30px;
+  line-height: 30px;
+  opacity: 1;
+  -webkit-pointer-events: all;
+  -moz-pointer-events: all;
+  pointer-events: all;
+}
+
+.unit-picker > span:hover {
+  background: hsl(0, 0%, 88%);
+}
+.unit-picker > span.active {
+  background: hsl(0, 0%, 95%);
+}
+
+@media all and (max-width: 640px) {
+  .conversion-inputs .equals {
+    display: block;
+    margin: 10px auto;
+    width: 100%;
+  }
+}

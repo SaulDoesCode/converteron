@@ -1,0 +1,8 @@
+{
+  "name": "converteron",
+  "version": "0.0.0",
+  "description": "turn x into y. convert different units of measurement",
+  "main": "index.html",
+  "author": "Saul van der Walt",
+  "license": "MIT"
+}
