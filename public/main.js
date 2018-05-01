@@ -50,35 +50,27 @@
           app.nodes.unitPickerB.active = selectorB
         }
       }
-      app.update(true)
+      app.update('A')
     },
-    update: function (updateA) {
-      var val
-      if (updateA) {
-        val = parseFloat(app.nodes.inputA.value)
-        if (val === Infinity || isNaN(val)) app.nodes.inputA.value = val = 0
-        app.nodes.inputB.value = converter(
-          app.activeType,
-          app.unitA,
-          app.unitB,
-          val
-        )
-      } else {
-        val = parseFloat(app.nodes.inputA.value)
-        if (val === Infinity || isNaN(val)) app.nodes.inputA.value = val = 0
-        app.nodes.inputA.value = converter(
-          app.activeType,
-          app.unitB,
-          app.unitA,
-          val
-        )
+    update: function (AorB) {
+      var isA = AorB === 'A'
+      var val = parseFloat(app.nodes['input' + AorB].value)
+      if (val === Infinity || isNaN(val)) {
+        app.nodes['input' + AorB].value = val = 0
       }
+      app.nodes[isA ? 'inputB' : 'inputA'].value = converter(
+        app.activeType,
+        app[isA ? 'unitA' : 'unitB'],
+        app[isA ? 'unitB' : 'unitA'],
+        val
+      )
     },
     nodes: {
       typeSelector: document.querySelector('.converter .type-selector'),
       activeType: document.querySelector('.converter .active-type'),
-      inputA: document.querySelector('.unitA input'),
-      inputB: document.querySelector('.unitB input'),
+      inputA: document.querySelector('.converter .unitA input'),
+      inputB: document.querySelector('.converter .unitB input'),
+      equals: document.querySelector('.converter span.equals'),
       unitPickerA: {
         list: document.querySelector('.unitA .unit-picker')
       },
@@ -107,39 +99,55 @@
         app.nodes.activeSelector.className = ''
       }
       (app.nodes.activeSelector = e.target).className = 'active'
+      if (window.innerWidth < 561) {
+        app.nodes.typeSelector.style.display = 'none'
+        setTimeout(function () {
+          app.nodes.typeSelector.style.display = ''
+        }, 500)
+      }
     }
   })
+
+  function setUnit (AorB, val, noUpdate) {
+    var picker = 'unitPicker' + AorB
+    var unit = 'unit' + AorB
+    app[unit] = val
+    if (app.nodes[picker].active) {
+      app.nodes[picker].active.className = ''
+    }
+    for (var i = 0; i < app.nodes[picker].list.children.length; i++) {
+      var selector = app.nodes[picker].list.children[i]
+      if (selector.innerText === val) {
+        selector.className = 'active'
+        app.nodes[picker].active = selector
+        break
+      }
+    }
+    if (!noUpdate) app.update(AorB)
+  }
 
   app.nodes.unitPickerA.list.addEventListener('click', function (e) {
     if (
       e.target instanceof HTMLSpanElement &&
       app.nodes.unitPickerA.active !== e.target
-    ) {
-      app.unitA = e.target.innerText
-      if (app.nodes.unitPickerA.active) {
-        app.nodes.unitPickerA.active.className = ''
-      }
-      app.nodes.unitPickerA.active = e.target
-      app.nodes.unitPickerA.active.className = 'active'
-      app.update(true)
-    }
+    ) setUnit('A', e.target.innerText)
   })
 
   app.nodes.unitPickerB.list.addEventListener('click', function (e) {
     if (
       e.target instanceof HTMLSpanElement &&
       app.nodes.unitPickerB.active !== e.target
-    ) {
-      app.unitB = e.target.innerText
-      if (app.nodes.unitPickerB.active) {
-        app.nodes.unitPickerB.active.className = ''
-      }
-      app.nodes.unitPickerB.active = e.target
-      app.nodes.unitPickerB.active.className = 'active'
-      app.update(true)
-    }
+    ) setUnit('B', e.target.innerText)
   })
 
-  app.nodes.inputA.addEventListener('input', function () { app.update(true) })
-  app.nodes.inputB.addEventListener('input', function () { app.update() })
+  app.nodes.inputA.addEventListener('input', function () { app.update('A') })
+  app.nodes.inputB.addEventListener('input', function () { app.update('B') })
+
+  app.nodes.equals.addEventListener('click', function (e) {
+    var unitA = app.unitA
+    var unitB = app.unitB
+    setUnit('A', unitB)
+    setUnit('B', unitA)
+    app.update('A')
+  })
 })()
